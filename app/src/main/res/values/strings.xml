@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name" translatable="false">MobFinder</string>
+
+    <string name="vendor_label">Company</string>
+
+    <string-array name="vendors">
+        <item>Google</item>
+        <item>Samsung</item>
+        <item>HTC</item>
+    </string-array>
+</resources>
