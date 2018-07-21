@@ -11,7 +11,7 @@
     <dimen name="card_action_margin">8dp</dimen>
     <dimen name="card_action_padding">8dp</dimen>
     <dimen name="card_action_padding_start">16dp</dimen>
-    <dimen name="card_width">250dp</dimen>
+    <dimen name="card_width">344dp</dimen>
     <dimen name="card_height">148dp</dimen>
     <dimen name="card_margin">8dp</dimen>
     <dimen name="card_radius">4dp</dimen>
