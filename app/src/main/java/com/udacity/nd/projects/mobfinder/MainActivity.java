@@ -2,6 +2,7 @@ package com.udacity.nd.projects.mobfinder;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -31,8 +32,12 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements Callback<List<Mobile>>, SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String INSTANCE_STATE_KEY_SPINNER = "KEY_SPINNER";
+    private static final String INSTANCE_STATE_KEY_RV = "KEY_RV_POSITION";
+
     private RecyclerView rv;
     private GridLayoutManager gridLayoutManager;
+    private Parcelable rvPosition;
     private Spinner spinner;
     private ProgressBar progressBar;
 
@@ -49,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
         setupSpinner();
 
         rv = findViewById(R.id.rv_mobiles);
-        gridLayoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer.grid_count));
 
         loadMobiles();
     }
@@ -60,6 +64,22 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
 
         PreferenceManager.getDefaultSharedPreferences(this)
                 .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(INSTANCE_STATE_KEY_SPINNER, spinner.getSelectedItemPosition());
+        outState.putParcelable(INSTANCE_STATE_KEY_RV, rv.getLayoutManager().onSaveInstanceState());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        spinner.setSelection(savedInstanceState.getInt(INSTANCE_STATE_KEY_SPINNER));
+        rvPosition = savedInstanceState.getParcelable(INSTANCE_STATE_KEY_RV);
     }
 
     @Override
@@ -146,12 +166,14 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
             List<Mobile> mobiles = response.body();
             Log.d(TAG, "mobiles: " + (mobiles != null ? mobiles.size() : 0));
 
-            MobileAdapter adapter = new MobileAdapter(this, mobiles);
-
             progressBar.setVisibility(View.INVISIBLE);
             rv.setVisibility(View.VISIBLE);
 
+            gridLayoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer.grid_count));
+            gridLayoutManager.onRestoreInstanceState(rvPosition);
             rv.setLayoutManager(gridLayoutManager);
+
+            MobileAdapter adapter = new MobileAdapter(this, mobiles);
             rv.setAdapter(adapter);
         } else {
             try {
