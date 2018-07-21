@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="vendor_label">الشركة</string>
+
+    <string name="title_activity_settings">الإعدادات</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+
+    <string name="pref_header_general">الإعدادات العامة</string>
+
+    <string name="pref_title_brand">الشركة المفضلة</string>
+
+    <string name="pref_title_no_mobiles">أقصي عدد من الموبايلات</string>
+    <string name="pref_error_msg_for_no_mobiles">الذي ادخلته ليس رقم , أقصي عدد من الموبايلات هو ١٠ – ١٠٠</string>
 </resources>

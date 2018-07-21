@@ -3,9 +3,38 @@
 
     <string name="vendor_label">Company</string>
 
+    <string name="vendor_apple" translatable="false">Apple</string>
+    <string name="vendor_google" translatable="false">Google</string>
+    <string name="vendor_samsung" translatable="false">Samsung</string>
+    <string name="vendor_htc" translatable="false">HTC</string>
+
     <string-array name="vendors">
-        <item>Google</item>
-        <item>Samsung</item>
-        <item>HTC</item>
+        <item>@string/vendor_apple</item>
+        <item>@string/vendor_google</item>
+        <item>@string/vendor_samsung</item>
+        <item>@string/vendor_htc</item>
     </string-array>
+
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+
+    <string name="pref_key_brand" translatable="false">brand</string>
+    <string name="pref_title_brand">Default Brand</string>
+    <string name="pref_default_brand" translatable="false">0</string>
+    <string-array name="pref_brand_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string name="pref_default_no_mobiles" translatable="false">10</string>
+    <string name="pref_key_no_mobiles" translatable="false">no_mobiles</string>
+    <string name="pref_title_no_mobiles">Maximum Requested Mobiles</string>
+    <string name="pref_error_msg_for_no_mobiles">Illegal Number Format, Maximum Requested Mobiles range is 10 – 100</string>
 </resources>
