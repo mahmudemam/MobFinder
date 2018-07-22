@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
     private static final String INSTANCE_STATE_KEY_RV = "KEY_RV_POSITION";
 
     private RecyclerView rv;
-    private GridLayoutManager gridLayoutManager;
     private Parcelable rvPosition;
     private Spinner spinner;
     private ProgressBar progressBar;
@@ -169,9 +169,9 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
             progressBar.setVisibility(View.INVISIBLE);
             rv.setVisibility(View.VISIBLE);
 
-            gridLayoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer.grid_count));
-            gridLayoutManager.onRestoreInstanceState(rvPosition);
-            rv.setLayoutManager(gridLayoutManager);
+            StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(getResources().getInteger(R.integer.grid_count), StaggeredGridLayoutManager.VERTICAL);
+            layoutManager.onRestoreInstanceState(rvPosition);
+            rv.setLayoutManager(layoutManager);
 
             MobileAdapter adapter = new MobileAdapter(this, mobiles);
             rv.setAdapter(adapter);
