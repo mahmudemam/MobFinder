@@ -22,7 +22,9 @@ import android.widget.Spinner;
 import com.udacity.nd.projects.mobfinder.adapters.MobileAdapter;
 import com.udacity.nd.projects.mobfinder.data.Mobile;
 import com.udacity.nd.projects.mobfinder.settings.SettingsActivity;
+import com.udacity.nd.projects.mobfinder.utils.JsonUtils;
 import com.udacity.nd.projects.mobfinder.utils.NetworkUtils;
+import com.udacity.nd.projects.mobfinder.utils.ProviderUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -199,7 +201,11 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
     }
 
     @Override
-    public void onFavoriteClicked() {
-
+    public void onFavoriteClicked(Mobile mobile, boolean favorite) {
+        if (favorite) {
+            ProviderUtils.add(this, mobile);
+        } else {
+            ProviderUtils.remove(this, mobile.getDeviceName());
+        }
     }
 }

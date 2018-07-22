@@ -26,6 +26,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.udacity.nd.projects.mobfinder.MainActivity" />
         </activity>
+        <provider
+            android:authorities="com.udacity.nd.projects.mobfinder"
+            android:name=".datastorage.MobFinderProvider"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -3,6 +3,7 @@ package com.udacity.nd.projects.mobfinder.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.udacity.nd.projects.mobfinder.R;
 import com.udacity.nd.projects.mobfinder.data.Mobile;
+import com.udacity.nd.projects.mobfinder.utils.ProviderUtils;
 
 import java.util.List;
 
@@ -27,7 +29,8 @@ public class MobileAdapter extends RecyclerView.Adapter<MobileAdapter.MobileView
 
     public interface MobileAdapterClickListener {
         void onShareClicked(String text);
-        void onFavoriteClicked();
+
+        void onFavoriteClicked(Mobile mobile, boolean favorite);
     }
 
     public MobileAdapter(Context context, List<Mobile> mobiles, MobileAdapterClickListener listener) {
@@ -62,6 +65,7 @@ public class MobileAdapter extends RecyclerView.Adapter<MobileAdapter.MobileView
         TextView mobileName;
         TextView vendorName;
         ImageButton shareButton;
+        ImageButton favoriteButton;
 
         MobileViewHolder(final View view) {
             super(view);
@@ -78,6 +82,8 @@ public class MobileAdapter extends RecyclerView.Adapter<MobileAdapter.MobileView
                     mListener.onShareClicked(mobile.toString());
                 }
             });
+
+            setupFavoriteButton(view);
         }
 
         void bind(Mobile mobile) {
@@ -103,6 +109,33 @@ public class MobileAdapter extends RecyclerView.Adapter<MobileAdapter.MobileView
 
             mobileName.setText(mobile.getDeviceName());
             vendorName.setText(mobile.getBrand());
+
+            if (ProviderUtils.isStored(mContext, mobile.getDeviceName())) {
+                favoriteButton.setSelected(true);
+                favoriteButton.setImageResource(R.drawable.ic_favorite_selected);
+            } else {
+                favoriteButton.setSelected(false);
+                favoriteButton.setImageResource(R.drawable.ic_favorite_border);
+            }
+        }
+
+        void setupFavoriteButton(final View view) {
+            favoriteButton = view.findViewById(R.id.ib_favorite);
+            favoriteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View favView) {
+                    if (favView.isSelected()) {
+                        favView.setSelected(false);
+                        favoriteButton.setImageResource(R.drawable.ic_favorite_border);
+                    } else {
+                        favView.setSelected(true);
+                        favoriteButton.setImageResource(R.drawable.ic_favorite_selected);
+                    }
+                    Mobile mobile = (Mobile) view.getTag();
+
+                    mListener.onFavoriteClicked(mobile, favView.isSelected());
+                }
+            });
         }
     }
 }
