@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -31,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements Callback<List<Mobile>>, SharedPreferences.OnSharedPreferenceChangeListener {
+public class MainActivity extends AppCompatActivity implements Callback<List<Mobile>>, SharedPreferences.OnSharedPreferenceChangeListener, MobileAdapter.MobileAdapterClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String INSTANCE_STATE_KEY_SPINNER = "KEY_SPINNER";
     private static final String INSTANCE_STATE_KEY_RV = "KEY_RV_POSITION";
@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
             layoutManager.onRestoreInstanceState(rvPosition);
             rv.setLayoutManager(layoutManager);
 
-            MobileAdapter adapter = new MobileAdapter(this, mobiles);
+            MobileAdapter adapter = new MobileAdapter(this, mobiles, this);
             rv.setAdapter(adapter);
         } else {
             try {
@@ -187,5 +187,19 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
     @Override
     public void onFailure(@NonNull Call<List<Mobile>> call, @NonNull Throwable t) {
         Log.e(TAG, t.getMessage());
+    }
+
+    @Override
+    public void onShareClicked(String text) {
+        ShareCompat.IntentBuilder.from(this)
+                .setType("text/plain")
+                .setChooserTitle("Share A mobile")
+                .setText(text)
+                .startChooser();
+    }
+
+    @Override
+    public void onFavoriteClicked() {
+
     }
 }
