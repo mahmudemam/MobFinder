@@ -10,6 +10,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class Mobile implements Parcelable {
 
+    private String imageURL;
+
     @SerializedName("DeviceName")
     @Expose
     private String deviceName;
@@ -250,6 +252,14 @@ public class Mobile implements Parcelable {
     }
 
     public Mobile() {
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public String getDeviceName() {

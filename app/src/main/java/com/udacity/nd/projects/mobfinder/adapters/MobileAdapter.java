@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.udacity.nd.projects.mobfinder.R;
 import com.udacity.nd.projects.mobfinder.data.Mobile;
 
@@ -62,7 +63,24 @@ public class MobileAdapter extends RecyclerView.Adapter<MobileAdapter.MobileView
         }
 
         void bind(Mobile mobile) {
-            mobileImage.setImageResource(R.drawable.ic_launcher_foreground);
+            int placeHolder = R.drawable.ic_launcher_foreground;
+
+            if (mobile.getBrand().equals(mContext.getString(R.string.vendor_google))) {
+                placeHolder = R.drawable.ic_google_g_logo;
+            } else if (mobile.getBrand().equals(mContext.getString(R.string.vendor_apple))) {
+                placeHolder = R.drawable.ic_apple_logo;
+            } else if (mobile.getBrand().equals(mContext.getString(R.string.vendor_htc))) {
+                placeHolder = R.drawable.ic_htc_logo;
+            } else if (mobile.getBrand().equals(mContext.getString(R.string.vendor_samsung))) {
+                placeHolder = R.drawable.ic_samsung_logo;
+            }
+
+            Picasso.get()
+                    .load(mobile.getImageURL())
+                    .placeholder(placeHolder)
+                    .error(placeHolder)
+                    .into(mobileImage);
+
             mobileName.setText(mobile.getDeviceName());
             vendorName.setText(mobile.getBrand());
         }
