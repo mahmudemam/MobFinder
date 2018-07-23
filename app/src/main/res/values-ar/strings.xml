@@ -4,7 +4,7 @@
 
     <string name="no_network_message">الشبكة غير متاحه</string>
     <string name="offline_message">غير متصل على الانترنت</string>
-    <string name="offline_message_with_action">غير متصل على الانترنت - إضغط لعرض الوبايلات المفضلة</string>
+    <string name="offline_message_with_action">غير متصل على الانترنت - إضغط لعرض الموبايلات المفضلة</string>
 
     <string name="refresh">إعادة التحميل</string>
 
