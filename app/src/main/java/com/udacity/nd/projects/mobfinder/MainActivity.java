@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String INSTANCE_STATE_KEY_SPINNER = "KEY_SPINNER";
     private static final String INSTANCE_STATE_KEY_RV = "KEY_RV_POSITION";
+    private static final String INSTANCE_STATE_KEY_OPERATE_MODE = "KEY_OPERATE_MODE";
 
     private static final String OPERATE_MODE_KEY = "operate_mode";
     public static final String OPERATE_MODE_ONLINE = "online";
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
     private Parcelable rvPosition;
     private Spinner spinner;
     private ProgressBar progressBar;
+    private String operateMode;
 
     public static void start(Context context, String operateMode) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -65,12 +67,24 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
         rv = findViewById(R.id.rv_mobiles);
 
         if (getIntent() != null) {
-            String operateMode = getIntent().getStringExtra(OPERATE_MODE_KEY);
-            if (operateMode.equals(OPERATE_MODE_ONLINE)) {
-                workOnline();
-            } else {
-                workOffline();
+            operateMode = getIntent().getStringExtra(OPERATE_MODE_KEY);
+            checkOperateMode();
+        } else {
+            if (savedInstanceState != null) {
+                onRestoreInstanceState(savedInstanceState);
+
+                if (operateMode != null) {
+                    checkOperateMode();
+                }
             }
+        }
+    }
+
+    private void checkOperateMode() {
+        if (operateMode.equals(OPERATE_MODE_ONLINE)) {
+            workOnline();
+        } else {
+            workOffline();
         }
     }
 
@@ -91,6 +105,10 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
 
         if (rv != null && rv.getLayoutManager() != null)
             outState.putParcelable(INSTANCE_STATE_KEY_RV, rv.getLayoutManager().onSaveInstanceState());
+
+        if (operateMode != null) {
+            outState.putString(INSTANCE_STATE_KEY_OPERATE_MODE, operateMode);
+        }
     }
 
     @Override
@@ -102,6 +120,9 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
 
         if (savedInstanceState.containsKey(INSTANCE_STATE_KEY_RV))
             rvPosition = savedInstanceState.getParcelable(INSTANCE_STATE_KEY_RV);
+
+        if (savedInstanceState.containsKey(INSTANCE_STATE_KEY_OPERATE_MODE))
+            operateMode = savedInstanceState.getString(INSTANCE_STATE_KEY_OPERATE_MODE);
     }
 
     @Override
@@ -256,6 +277,10 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
             ProviderUtils.add(this, mobile);
         } else {
             ProviderUtils.remove(this, mobile.getDeviceName());
+
+            if (operateMode.equals(OPERATE_MODE_OFFLINE)) {
+                workOffline();
+            }
         }
     }
 }
