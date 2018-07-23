@@ -2,6 +2,12 @@
 <resources>
     <string name="vendor_label">الشركة</string>
 
+    <string name="no_network_message">الشبكة غير متاحه</string>
+    <string name="offline_message">غير متصل على الانترنت</string>
+    <string name="offline_message_with_action">غير متصل على الانترنت - إضغط لعرض الوبايلات المفضلة</string>
+
+    <string name="refresh">إعادة التحميل</string>
+
     <string name="title_activity_settings">الإعدادات</string>
 
     <!-- Strings related to Settings -->
@@ -14,4 +20,10 @@
 
     <string name="pref_title_no_mobiles">أقصي عدد من الموبايلات</string>
     <string name="pref_error_msg_for_no_mobiles">الذي ادخلته ليس رقم , أقصي عدد من الموبايلات هو ١٠ – ١٠٠</string>
+
+    <!-- Connectivity settings -->
+    <string name="pref_header_connectivity">الاتصال</string>
+
+    <string name="pref_title_network_type">أستخدم</string>
+    <string name="pref_default_network_type">1</string>
 </resources>

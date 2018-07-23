@@ -17,6 +17,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tv_offline_mode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:text="@string/offline_message"
+        android:textColor="@android:color/black"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ProgressBar
         android:id="@+id/pb_loading_mobiles"
         android:layout_width="wrap_content"
@@ -30,19 +43,19 @@
         android:id="@+id/rv_mobiles"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/recyclerview_margin"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="@dimen/recyclerview_margin"
         android:layout_marginStart="@dimen/recyclerview_margin"
         android:layout_marginTop="@dimen/recyclerview_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tv_offline_mode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/spinner_vendors" />
 
     <ImageView
         android:id="@+id/iv_no_network"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/no_network_size"
+        android:layout_height="@dimen/no_network_size"
         android:contentDescription="@string/no_network_message"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -55,8 +68,6 @@
         android:id="@+id/tv_no_network"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/no_network_message"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
@@ -64,5 +75,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_no_network" />
+
+    <Button
+        android:id="@+id/btn_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:drawableTop="@drawable/ic_refresh_24dp"
+        android:text="@string/refresh"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/rv_mobiles"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

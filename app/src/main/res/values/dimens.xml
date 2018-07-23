@@ -20,4 +20,5 @@
     <dimen name="splash_screen_icon_width">128dp</dimen>
     <dimen name="splash_screen_icon_height">128dp</dimen>
     <dimen name="splash_screen_icon_offest">10dp</dimen>
+    <dimen name="no_network_size">100dp</dimen>
 </resources>

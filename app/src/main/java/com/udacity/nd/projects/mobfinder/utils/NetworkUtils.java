@@ -3,7 +3,9 @@ package com.udacity.nd.projects.mobfinder.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.preference.PreferenceManager;
 
+import com.udacity.nd.projects.mobfinder.R;
 import com.udacity.nd.projects.mobfinder.data.Mobile;
 
 import java.util.List;
@@ -37,6 +39,23 @@ public class NetworkUtils {
     }
 
     public static boolean isActive(Context context) {
+        String operateOver = PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(context.getString(R.string.pref_key_network_type), context.getString(R.string.pref_default_network_type));
+
+        if (operateOver.equals(context.getString(R.string.pref_default_network_type))) {
+            if (NetworkUtils.isAnyActive(context)) {
+                return true;
+            }
+        } else {
+            if (NetworkUtils.isWifiActive(context)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean isAnyActive(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
             NetworkInfo ni = cm.getActiveNetworkInfo();
@@ -46,7 +65,7 @@ public class NetworkUtils {
         return false;
     }
 
-    public static boolean isWifiActive(Context context) {
+    private static boolean isWifiActive(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
             NetworkInfo ni = cm.getActiveNetworkInfo();

@@ -1,8 +1,11 @@
 package com.udacity.nd.projects.mobfinder;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
@@ -18,8 +21,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.udacity.nd.projects.mobfinder.adapters.MobileAdapter;
 import com.udacity.nd.projects.mobfinder.data.Mobile;
@@ -49,8 +54,12 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
     private Spinner spinner;
     private ProgressBar progressBar;
     private String operateMode;
+    private NetworkConnectivityReceiver receiver;
+    private Button refreshBtn;
 
     public static void start(Context context, String operateMode) {
+        Log.d(TAG, "start");
+
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(OPERATE_MODE_KEY, operateMode);
 
@@ -62,11 +71,24 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        registerNetworkReceiver();
+
         progressBar = findViewById(R.id.pb_loading_mobiles);
         spinner = findViewById(R.id.spinner_vendors);
         rv = findViewById(R.id.rv_mobiles);
+        refreshBtn = findViewById(R.id.btn_refresh);
+        refreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                workOnline();
+            }
+        });
+
+        setupSpinner();
 
         if (getIntent() != null) {
+            Log.d(TAG, "Intent passed");
+
             operateMode = getIntent().getStringExtra(OPERATE_MODE_KEY);
             checkOperateMode();
         } else {
@@ -94,6 +116,8 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
 
         PreferenceManager.getDefaultSharedPreferences(this)
                 .unregisterOnSharedPreferenceChangeListener(this);
+
+        unregisterNetworkReceiver();
     }
 
     @Override
@@ -149,16 +173,29 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
     }
 
     private void workOnline() {
+        Log.d(TAG, "workOnline");
+
+        findViewById(R.id.iv_no_network).setVisibility(View.GONE);
+        findViewById(R.id.tv_no_network).setVisibility(View.GONE);
+        findViewById(R.id.tv_offline_mode).setVisibility(View.GONE);
+        refreshBtn.setVisibility(View.GONE);
+
+        progressBar.setVisibility(View.VISIBLE);
+        spinner.setVisibility(View.VISIBLE);
+        rv.setVisibility(View.VISIBLE);
+
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(this);
-
-        setupSpinner();
 
         loadMobiles();
     }
 
     private void workOffline() {
+        Log.d(TAG, "workOffline");
+
         List<Mobile> mobiles = ProviderUtils.getAllMobiles(this);
+
+        refreshBtn.setVisibility(View.GONE);
 
         if (mobiles == null) {
             progressBar.setVisibility(View.GONE);
@@ -173,6 +210,29 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
 
             loadRecyclerView(mobiles);
         }
+
+        TextView offlineMode = findViewById(R.id.tv_offline_mode);
+        offlineMode.setText(getString(R.string.offline_message));
+        offlineMode.setVisibility(View.VISIBLE);
+        offlineMode.setOnClickListener(null);
+    }
+
+    private void workPartiallyOffline() {
+        Log.d(TAG, "workPartiallyOffline");
+
+        progressBar.setVisibility(View.GONE);
+        spinner.setVisibility(View.GONE);
+        refreshBtn.setVisibility(View.GONE);
+
+        TextView offlineMode = findViewById(R.id.tv_offline_mode);
+        offlineMode.setText(getString(R.string.offline_message_with_action));
+        offlineMode.setVisibility(View.VISIBLE);
+        offlineMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                workOffline();
+            }
+        });
     }
 
     private void setupSpinner() {
@@ -184,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
                 String brand = adapterView.getAdapter().getItem(pos).toString();
-                Log.d(TAG, brand);
+                Log.d(TAG, "onItemSelected: " + brand);
 
                 loadMobiles();
             }
@@ -222,6 +282,8 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Log.d(TAG, "onSharedPreferenceChanged");
+
         if (key.equals(getString(R.string.pref_key_brand))) {
             updateSpinnerSelectionFromPreference();
         } else if (key.equals(getString(R.string.pref_key_no_mobiles))) {
@@ -260,6 +322,9 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
     @Override
     public void onFailure(@NonNull Call<List<Mobile>> call, @NonNull Throwable t) {
         Log.e(TAG, t.getMessage());
+
+        progressBar.setVisibility(View.GONE);
+        refreshBtn.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -279,6 +344,45 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
             ProviderUtils.remove(this, mobile.getDeviceName());
 
             if (operateMode.equals(OPERATE_MODE_OFFLINE)) {
+                workOffline();
+            }
+        }
+    }
+
+    public void registerNetworkReceiver() {
+        if (receiver == null) {
+            Log.d(TAG, "registering");
+
+            receiver = new NetworkConnectivityReceiver();
+            IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+            getApplicationContext().registerReceiver(receiver, intentFilter);
+        }
+    }
+
+    public void unregisterNetworkReceiver() {
+        if (receiver != null) {
+            Log.d(TAG, "unregistering");
+            getApplicationContext().unregisterReceiver(receiver);
+        }
+    }
+
+    public class NetworkConnectivityReceiver extends BroadcastReceiver {
+        private final String TAG = NetworkConnectivityReceiver.class.getSimpleName();
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boolean isActive = NetworkUtils.isActive(context);
+            if (isActive && operateMode.equals(OPERATE_MODE_OFFLINE)) {
+                Log.d(TAG, "onReceive: active");
+                operateMode = OPERATE_MODE_ONLINE;
+                workOnline();
+            } else if (!isActive && operateMode.equals(OPERATE_MODE_ONLINE)) {
+                Log.d(TAG, "onReceive: inactive");
+                operateMode = OPERATE_MODE_OFFLINE;
+                workPartiallyOffline();
+            } else if (!isActive) {
+                Log.d(TAG, "onReceive: inactive");
+                operateMode = OPERATE_MODE_OFFLINE;
                 workOffline();
             }
         }
