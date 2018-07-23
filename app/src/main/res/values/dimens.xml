@@ -17,4 +17,7 @@
     <dimen name="card_radius">4dp</dimen>
     <dimen name="spinner_margin">8dp</dimen>
     <dimen name="recyclerview_margin">8dp</dimen>
+    <dimen name="splash_screen_icon_width">128dp</dimen>
+    <dimen name="splash_screen_icon_height">128dp</dimen>
+    <dimen name="splash_screen_icon_offest">10dp</dimen>
 </resources>

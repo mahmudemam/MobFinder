@@ -1,5 +1,7 @@
 package com.udacity.nd.projects.mobfinder;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -22,7 +24,6 @@ import android.widget.Spinner;
 import com.udacity.nd.projects.mobfinder.adapters.MobileAdapter;
 import com.udacity.nd.projects.mobfinder.data.Mobile;
 import com.udacity.nd.projects.mobfinder.settings.SettingsActivity;
-import com.udacity.nd.projects.mobfinder.utils.JsonUtils;
 import com.udacity.nd.projects.mobfinder.utils.NetworkUtils;
 import com.udacity.nd.projects.mobfinder.utils.ProviderUtils;
 
@@ -38,10 +39,21 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
     private static final String INSTANCE_STATE_KEY_SPINNER = "KEY_SPINNER";
     private static final String INSTANCE_STATE_KEY_RV = "KEY_RV_POSITION";
 
+    private static final String OPERATE_MODE_KEY = "operate_mode";
+    public static final String OPERATE_MODE_ONLINE = "online";
+    public static final String OPERATE_MODE_OFFLINE = "offline";
+
     private RecyclerView rv;
     private Parcelable rvPosition;
     private Spinner spinner;
     private ProgressBar progressBar;
+
+    public static void start(Context context, String operateMode) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(OPERATE_MODE_KEY, operateMode);
+
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +61,17 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
         setContentView(R.layout.activity_main);
 
         progressBar = findViewById(R.id.pb_loading_mobiles);
-
-        PreferenceManager.getDefaultSharedPreferences(this)
-                .registerOnSharedPreferenceChangeListener(this);
-
-        setupSpinner();
-
+        spinner = findViewById(R.id.spinner_vendors);
         rv = findViewById(R.id.rv_mobiles);
 
-        loadMobiles();
+        if (getIntent() != null) {
+            String operateMode = getIntent().getStringExtra(OPERATE_MODE_KEY);
+            if (operateMode.equals(OPERATE_MODE_ONLINE)) {
+                workOnline();
+            } else {
+                workOffline();
+            }
+        }
     }
 
     @Override
@@ -72,16 +86,22 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt(INSTANCE_STATE_KEY_SPINNER, spinner.getSelectedItemPosition());
-        outState.putParcelable(INSTANCE_STATE_KEY_RV, rv.getLayoutManager().onSaveInstanceState());
+        if (spinner != null)
+            outState.putInt(INSTANCE_STATE_KEY_SPINNER, spinner.getSelectedItemPosition());
+
+        if (rv != null && rv.getLayoutManager() != null)
+            outState.putParcelable(INSTANCE_STATE_KEY_RV, rv.getLayoutManager().onSaveInstanceState());
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        spinner.setSelection(savedInstanceState.getInt(INSTANCE_STATE_KEY_SPINNER));
-        rvPosition = savedInstanceState.getParcelable(INSTANCE_STATE_KEY_RV);
+        if (savedInstanceState.containsKey(INSTANCE_STATE_KEY_SPINNER))
+            spinner.setSelection(savedInstanceState.getInt(INSTANCE_STATE_KEY_SPINNER));
+
+        if (savedInstanceState.containsKey(INSTANCE_STATE_KEY_RV))
+            rvPosition = savedInstanceState.getParcelable(INSTANCE_STATE_KEY_RV);
     }
 
     @Override
@@ -107,9 +127,34 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
         }
     }
 
-    private void setupSpinner() {
-        spinner = findViewById(R.id.spinner_vendors);
+    private void workOnline() {
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .registerOnSharedPreferenceChangeListener(this);
 
+        setupSpinner();
+
+        loadMobiles();
+    }
+
+    private void workOffline() {
+        List<Mobile> mobiles = ProviderUtils.getAllMobiles(this);
+
+        if (mobiles == null) {
+            progressBar.setVisibility(View.GONE);
+            spinner.setVisibility(View.GONE);
+            rv.setVisibility(View.GONE);
+
+            findViewById(R.id.iv_no_network).setVisibility(View.VISIBLE);
+            findViewById(R.id.tv_no_network).setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+            spinner.setVisibility(View.GONE);
+
+            loadRecyclerView(mobiles);
+        }
+    }
+
+    private void setupSpinner() {
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.vendors, android.R.layout.simple_spinner_dropdown_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -144,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
     }
 
     private void loadMobiles() {
+        Log.d(TAG, "loadMobiles: begin");
         progressBar.setVisibility(View.VISIBLE);
         rv.setVisibility(View.INVISIBLE);
 
@@ -171,12 +217,7 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
             progressBar.setVisibility(View.INVISIBLE);
             rv.setVisibility(View.VISIBLE);
 
-            StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(getResources().getInteger(R.integer.grid_count), StaggeredGridLayoutManager.VERTICAL);
-            layoutManager.onRestoreInstanceState(rvPosition);
-            rv.setLayoutManager(layoutManager);
-
-            MobileAdapter adapter = new MobileAdapter(this, mobiles, this);
-            rv.setAdapter(adapter);
+            loadRecyclerView(mobiles);
         } else {
             try {
                 Log.e(TAG, response.errorBody().string());
@@ -184,6 +225,15 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
                 Log.e(TAG, e.getMessage());
             }
         }
+    }
+
+    private void loadRecyclerView(List<Mobile> mobiles) {
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(getResources().getInteger(R.integer.grid_count), StaggeredGridLayoutManager.VERTICAL);
+        layoutManager.onRestoreInstanceState(rvPosition);
+        rv.setLayoutManager(layoutManager);
+
+        MobileAdapter adapter = new MobileAdapter(this, mobiles, this);
+        rv.setAdapter(adapter);
     }
 
     @Override

@@ -10,6 +10,9 @@ import android.util.Log;
 import com.udacity.nd.projects.mobfinder.data.Mobile;
 import com.udacity.nd.projects.mobfinder.datastorage.MobFinderContract;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by noname on 7/22/18.
  */
@@ -55,5 +58,35 @@ public class ProviderUtils {
         }
 
         return false;
+    }
+
+    public static List<Mobile> getAllMobiles(@NonNull Context context) {
+        List<Mobile> mobiles = null;
+
+        Cursor cursor = context.getContentResolver()
+                .query(MobFinderContract.MobileEntry.CONTENT_URI, null, null, null, null);
+
+        if (cursor != null && cursor.getCount() != 0) {
+            mobiles = cursorToList(cursor);
+        }
+
+        return mobiles;
+    }
+
+    private static List<Mobile> cursorToList(Cursor cursor) {
+        List<Mobile> mobiles = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            mobiles.add(
+                    JsonUtils.jsonToMobile(
+                            cursor.getString(
+                                    cursor.getColumnIndex(MobFinderContract.MobileEntry.COLUMN_MOBILE_JSON))
+                    )
+            );
+        }
+
+        cursor.close();
+
+        return mobiles;
     }
 }

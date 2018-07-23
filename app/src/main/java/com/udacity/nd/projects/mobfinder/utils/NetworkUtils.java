@@ -1,5 +1,9 @@
 package com.udacity.nd.projects.mobfinder.utils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import com.udacity.nd.projects.mobfinder.data.Mobile;
 
 import java.util.List;
@@ -30,6 +34,27 @@ public class NetworkUtils {
         }
 
         mobileAPI.getLatestMobiles(brand, String.valueOf(limit)).enqueue(callback);
+    }
+
+    public static boolean isActive(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            NetworkInfo ni = cm.getActiveNetworkInfo();
+            return ni != null && ni.isConnected();
+        }
+
+        return false;
+    }
+
+    public static boolean isWifiActive(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            NetworkInfo ni = cm.getActiveNetworkInfo();
+
+            return ni != null && ni.isConnected() && ni.getType() == ConnectivityManager.TYPE_WIFI;
+        }
+
+        return false;
     }
 }
 

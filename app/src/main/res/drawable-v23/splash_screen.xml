@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:opacity="opaque">
+    <item android:drawable="@color/colorPrimary" />
+    <item
+        android:width="@dimen/splash_screen_icon_width"
+        android:height="@dimen/splash_screen_icon_height"
+        android:bottom="@dimen/splash_screen_icon_offest"
+        android:drawable="@drawable/ic_mobfinder_logo_white"
+        android:end="@dimen/splash_screen_icon_offest"
+        android:gravity="center"
+        android:start="@dimen/splash_screen_icon_offest"
+        android:top="@dimen/splash_screen_icon_offest" />
+</layer-list>

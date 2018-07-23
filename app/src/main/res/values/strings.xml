@@ -8,6 +8,8 @@
     <string name="vendor_samsung" translatable="false">Samsung</string>
     <string name="vendor_htc" translatable="false">HTC</string>
 
+    <string name="no_network_message">No Network</string>
+
     <string-array name="vendors">
         <item>@string/vendor_apple</item>
         <item>@string/vendor_google</item>
@@ -19,9 +21,8 @@
 
     <!-- Strings related to Settings -->
 
-    <!-- Example General settings -->
+    <!-- General settings -->
     <string name="pref_header_general">General</string>
-
 
     <string name="pref_key_brand" translatable="false">brand</string>
     <string name="pref_title_brand">Default Brand</string>
@@ -37,4 +38,20 @@
     <string name="pref_key_no_mobiles" translatable="false">no_mobiles</string>
     <string name="pref_title_no_mobiles">Maximum Requested Mobiles</string>
     <string name="pref_error_msg_for_no_mobiles">Illegal Number Format, Maximum Requested Mobiles range is 10 – 100</string>
+
+    <!-- Connectivity settings -->
+    <string name="pref_header_connectivity">Connectivity</string>
+
+
+    <string name="pref_title_network_type">Operate Over</string>
+    <string name="pref_key_network_type">network_type</string>
+    <string name="pref_default_network_type">1</string>
+    <string-array name="pref_entries_network_types">
+        <item>Wifi</item>
+        <item>Wifi &amp; cellular</item>
+    </string-array>
+    <string-array name="pref_values_network_types">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
 </resources>
