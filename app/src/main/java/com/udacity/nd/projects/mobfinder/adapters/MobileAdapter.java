@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.udacity.nd.projects.mobfinder.R;
 import com.udacity.nd.projects.mobfinder.data.Mobile;
+import com.udacity.nd.projects.mobfinder.utils.NetworkUtils;
 import com.udacity.nd.projects.mobfinder.utils.ProviderUtils;
 
 import java.util.List;
@@ -31,6 +32,8 @@ public class MobileAdapter extends RecyclerView.Adapter<MobileAdapter.MobileView
         void onShareClicked(String text);
 
         void onFavoriteClicked(Mobile mobile, boolean favorite);
+
+        void onMobileClicked(Mobile mobile);
     }
 
     public MobileAdapter(Context context, List<Mobile> mobiles, MobileAdapterClickListener listener) {
@@ -70,6 +73,13 @@ public class MobileAdapter extends RecyclerView.Adapter<MobileAdapter.MobileView
         MobileViewHolder(final View view) {
             super(view);
 
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onMobileClicked((Mobile) view.getTag());
+                }
+            });
+
             mobileImage = view.findViewById(R.id.iv_mobile_img);
             mobileName = view.findViewById(R.id.tv_mobile_name);
             vendorName = view.findViewById(R.id.tv_mobile_vendor);
@@ -89,23 +99,7 @@ public class MobileAdapter extends RecyclerView.Adapter<MobileAdapter.MobileView
         void bind(Mobile mobile) {
             itemView.setTag(mobile);
 
-            int placeHolder = R.drawable.ic_launcher_foreground;
-
-            if (mobile.getBrand().equals(mContext.getString(R.string.vendor_google))) {
-                placeHolder = R.drawable.ic_google_g_logo;
-            } else if (mobile.getBrand().equals(mContext.getString(R.string.vendor_apple))) {
-                placeHolder = R.drawable.ic_apple_logo;
-            } else if (mobile.getBrand().equals(mContext.getString(R.string.vendor_htc))) {
-                placeHolder = R.drawable.ic_htc_logo;
-            } else if (mobile.getBrand().equals(mContext.getString(R.string.vendor_samsung))) {
-                placeHolder = R.drawable.ic_samsung_logo;
-            }
-
-            Picasso.get()
-                    .load(mobile.getImageURL())
-                    .placeholder(placeHolder)
-                    .error(placeHolder)
-                    .into(mobileImage);
+            NetworkUtils.loadImage(mContext, mobileImage, mobile);
 
             mobileName.setText(mobile.getDeviceName());
             vendorName.setText(mobile.getBrand());

@@ -4,7 +4,9 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
 import com.udacity.nd.projects.mobfinder.R;
 import com.udacity.nd.projects.mobfinder.data.Mobile;
 
@@ -36,6 +38,26 @@ public class NetworkUtils {
         }
 
         mobileAPI.getLatestMobiles(brand, String.valueOf(limit)).enqueue(callback);
+    }
+
+    public static void loadImage(Context context, ImageView iv, Mobile mobile) {
+        int placeHolder = R.drawable.ic_launcher_foreground;
+
+        if (mobile.getBrand().equals(context.getString(R.string.vendor_google))) {
+            placeHolder = R.drawable.ic_google_g_logo;
+        } else if (mobile.getBrand().equals(context.getString(R.string.vendor_apple))) {
+            placeHolder = R.drawable.ic_apple_logo;
+        } else if (mobile.getBrand().equals(context.getString(R.string.vendor_htc))) {
+            placeHolder = R.drawable.ic_htc_logo;
+        } else if (mobile.getBrand().equals(context.getString(R.string.vendor_samsung))) {
+            placeHolder = R.drawable.ic_samsung_logo;
+        }
+
+        Picasso.get()
+                .load(mobile.getImageURL())
+                .placeholder(placeHolder)
+                .error(placeHolder)
+                .into(iv);
     }
 
     public static boolean isActive(Context context) {

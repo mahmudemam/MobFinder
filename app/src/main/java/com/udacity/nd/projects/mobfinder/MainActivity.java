@@ -349,6 +349,11 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
         }
     }
 
+    @Override
+    public void onMobileClicked(Mobile mobile) {
+        MobileDetailsActivity.start(this, mobile);
+    }
+
     public void registerNetworkReceiver() {
         if (receiver == null) {
             Log.d(TAG, "registering");

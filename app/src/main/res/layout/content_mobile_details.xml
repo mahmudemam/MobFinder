@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollview_mobile_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.udacity.nd.projects.mobfinder.MobileDetailsActivity"
+    tools:showIn="@layout/activity_mobile_details">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_display"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:elevation="6dp">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/guideline"
+                    style="@style/mobile_details_card_guideline"
+                    app:layout_constraintGuide_percent="0.35" />
+
+                <TextView
+                    android:id="@+id/tv_display_title"
+                    style="@style/mobile_details_card_title"
+                    android:text="@string/mobile_details_title_display"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_physical_size"
+                    style="@style/mobile_details_card_spec_title"
+                    android:text="@string/mobile_details_physical_size"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline"
+                    app:layout_constraintStart_toStartOf="@+id/tv_display_title"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_display_title" />
+
+                <TextView
+                    android:id="@+id/tv_physical_size_data"
+                    style="@style/mobile_details_card_spec_data"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_physical_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/guideline"
+                    app:layout_constraintTop_toTopOf="@+id/tv_physical_size"
+                    tools:text="6.0 inches" />
+
+                <TextView
+                    android:id="@+id/tv_resolution"
+                    style="@style/mobile_details_card_spec_title"
+                    android:text="@string/mobile_details_resolution"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline"
+                    app:layout_constraintStart_toStartOf="@+id/tv_physical_size"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_physical_size" />
+
+                <TextView
+                    android:id="@+id/tv_resolution_data"
+                    style="@style/mobile_details_card_spec_data"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_resolution"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/guideline"
+                    app:layout_constraintTop_toTopOf="@+id/tv_resolution"
+                    tools:text="1080 x 2160 pixels" />
+
+                <TextView
+                    android:id="@+id/tv_pixels"
+                    style="@style/mobile_details_card_spec_title"
+                    android:text="@string/mobile_details_pixels"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline"
+                    app:layout_constraintStart_toStartOf="@+id/tv_resolution"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_resolution" />
+
+                <TextView
+                    android:id="@+id/tv_pixels_data"
+                    style="@style/mobile_details_card_spec_data"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_pixels"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/guideline"
+                    app:layout_constraintTop_toTopOf="@+id/tv_pixels"
+                    tools:text="402 ppi" />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_hardware"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:elevation="6dp">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/guideline_hardware"
+                    style="@style/mobile_details_card_guideline"
+                    app:layout_constraintGuide_percent="0.35" />
+
+                <TextView
+                    android:id="@+id/tv_title_hardware"
+                    style="@style/mobile_details_card_title"
+                    android:text="@string/mobile_details_title_hardware"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_chipset"
+                    style="@style/mobile_details_card_spec_title"
+                    android:text="@string/mobile_details_chipset"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_hardware"
+                    app:layout_constraintStart_toStartOf="@+id/tv_title_hardware"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title_hardware" />
+
+                <TextView
+                    android:id="@+id/tv_chipset_data"
+                    style="@style/mobile_details_card_spec_data"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_chipset"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/guideline_hardware"
+                    app:layout_constraintTop_toTopOf="@+id/tv_chipset"
+                    tools:text="Qualcomm Snapdragon 636 SDM636" />
+
+                <TextView
+                    android:id="@+id/tv_graphics"
+                    style="@style/mobile_details_card_spec_title"
+                    android:text="@string/mobile_details_graphics"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_hardware"
+                    app:layout_constraintStart_toStartOf="@+id/tv_chipset"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_chipset" />
+
+                <TextView
+                    android:id="@+id/tv_graphics_data"
+                    style="@style/mobile_details_card_spec_data"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_graphics"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/guideline_hardware"
+                    app:layout_constraintTop_toTopOf="@+id/tv_graphics"
+                    tools:text="Adreno 509" />
+
+                <TextView
+                    android:id="@+id/tv_memory"
+                    style="@style/mobile_details_card_spec_title"
+                    android:text="@string/mobile_details_memory"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_hardware"
+                    app:layout_constraintStart_toStartOf="@+id/tv_graphics"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_graphics" />
+
+                <TextView
+                    android:id="@+id/tv_memory_data"
+                    style="@style/mobile_details_card_spec_data"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_memory"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/guideline_hardware"
+                    app:layout_constraintTop_toTopOf="@+id/tv_memory"
+                    tools:text="4 GB RAM" />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_camera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:elevation="6dp">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/guideline_camera"
+                    style="@style/mobile_details_card_guideline"
+                    app:layout_constraintGuide_percent="0.35" />
+
+                <TextView
+                    android:id="@+id/tv_title_camera"
+                    style="@style/mobile_details_card_title"
+                    android:text="@string/mobile_details_title_camera"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_rear_camera"
+                    style="@style/mobile_details_card_spec_title"
+                    android:text="@string/mobile_details_rear_camera"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_camera"
+                    app:layout_constraintStart_toStartOf="@+id/tv_title_camera"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title_camera" />
+
+                <TextView
+                    android:id="@+id/tv_rear_camera_data"
+                    style="@style/mobile_details_card_spec_data"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_rear_camera"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/guideline_camera"
+                    app:layout_constraintTop_toTopOf="@+id/tv_rear_camera"
+                    tools:text="12 megapixels" />
+
+                <TextView
+                    android:id="@+id/tv_front_camera"
+                    style="@style/mobile_details_card_spec_title"
+                    android:text="@string/mobile_details_front_camera"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_camera"
+                    app:layout_constraintStart_toStartOf="@+id/tv_rear_camera"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_rear_camera" />
+
+                <TextView
+                    android:id="@+id/tv_front_camera_data"
+                    style="@style/mobile_details_card_spec_data"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_front_camera"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/guideline_camera"
+                    app:layout_constraintTop_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_front_camera"
+                    tools:text="7 megapixels" />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -17,4 +17,50 @@
     <style name="SplashTheme" parent="AppTheme.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
+
+    <style name="mobile_details_header">
+        <item name="android:layout_width">@dimen/mobile_details_spec_img_size</item>
+        <item name="android:layout_height">@dimen/mobile_details_spec_img_size</item>
+        <item name="android:layout_marginTop">@dimen/default_margin</item>
+    </style>
+
+    <style name="mobile_details_header_primary_content">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/default_margin</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="mobile_details_card_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/default_margin</item>
+        <item name="android:layout_marginTop">@dimen/default_margin</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/card_title_size</item>
+    </style>
+
+    <style name="mobile_details_card_guideline">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="mobile_details_card_spec_title">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/default_margin</item>
+        <item name="android:layout_marginTop">@dimen/default_margin</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="mobile_details_card_spec_data">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:maxLines">1</item>
+    </style>
 </resources>
