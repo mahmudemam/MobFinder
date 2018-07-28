@@ -26,6 +26,13 @@ public class MobileDetailsActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
+    public static Intent getFillIntent(Mobile mobile) {
+        Intent intent = new Intent();
+        intent.putExtra(INTENT_KEY_MOBILE, mobile);
+
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

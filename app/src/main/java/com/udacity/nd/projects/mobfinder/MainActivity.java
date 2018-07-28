@@ -30,7 +30,9 @@ import com.udacity.nd.projects.mobfinder.adapters.MobileAdapter;
 import com.udacity.nd.projects.mobfinder.data.Mobile;
 import com.udacity.nd.projects.mobfinder.settings.SettingsActivity;
 import com.udacity.nd.projects.mobfinder.utils.NetworkUtils;
+import com.udacity.nd.projects.mobfinder.utils.PreferencesUtils;
 import com.udacity.nd.projects.mobfinder.utils.ProviderUtils;
+import com.udacity.nd.projects.mobfinder.widgets.MobFinderWidget;
 
 import java.io.IOException;
 import java.util.List;
@@ -259,14 +261,9 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
     }
 
     private void updateSpinnerSelectionFromPreference() {
-        int brand = getDefaultBrand();
+        int brand = PreferencesUtils.getBrand(this);
         if (brand != -1)
             spinner.setSelection(brand);
-    }
-
-    private int getDefaultBrand() {
-        return Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(this)
-                .getString(getString(R.string.pref_key_brand), "-1"));
     }
 
     private void loadMobiles() {
@@ -274,10 +271,9 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
         progressBar.setVisibility(View.VISIBLE);
         rv.setVisibility(View.INVISIBLE);
 
-        int limit = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(this)
-                .getString(getString(R.string.pref_key_no_mobiles), "10"));
-
-        NetworkUtils.getLatest(this, spinner.getSelectedItem().toString(), limit);
+        NetworkUtils.getLatest(this,
+                spinner.getSelectedItem().toString(),
+                PreferencesUtils.getLimit(this));
     }
 
     @Override
@@ -347,6 +343,8 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
                 workOffline();
             }
         }
+
+        MobFinderWidget.updateAppWidgets(this);
     }
 
     @Override

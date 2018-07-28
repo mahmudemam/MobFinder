@@ -12,7 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
@@ -22,11 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop" />
-
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -35,7 +32,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.udacity.nd.projects.mobfinder.MainActivity" />
         </activity>
-
         <activity
             android:name=".MobileDetailsActivity"
             android:label="@string/mobile_details_activity_title"
@@ -48,8 +44,20 @@
         <provider
             android:name=".datastorage.MobFinderProvider"
             android:authorities="com.udacity.nd.projects.mobfinder"
-            android:exported="false" />
+            android:exported="true" />
 
+        <receiver android:name=".widgets.MobFinderWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_mob_finder" />
+        </receiver>
+
+        <service android:name=".widgets.MobFinderWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
 </manifest>

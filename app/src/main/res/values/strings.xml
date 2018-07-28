@@ -8,7 +8,7 @@
     <string name="vendor_samsung" translatable="false">Samsung</string>
     <string name="vendor_htc" translatable="false">HTC</string>
 
-    <string name="no_network_message">No Network</string>
+    <string name="no_network_message">No Network &amp; favorites</string>
     <string name="offline_message">Offline</string>
     <string name="offline_message_with_action">Offline - Press to load favorites if there</string>
 

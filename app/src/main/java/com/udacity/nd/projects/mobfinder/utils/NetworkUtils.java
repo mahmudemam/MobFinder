@@ -10,10 +10,12 @@ import com.squareup.picasso.Picasso;
 import com.udacity.nd.projects.mobfinder.R;
 import com.udacity.nd.projects.mobfinder.data.Mobile;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
@@ -27,7 +29,7 @@ public class NetworkUtils {
     private static MobileAPI mobileAPI;
     private static final String MOBILE_BASE_API = "https://fonoapi.freshpixl.com/v1/";
 
-    public static void getLatest(Callback<List<Mobile>> callback, String brand, int limit) {
+    public static List<Mobile> getLatest(Callback<List<Mobile>> callback, String brand, int limit) {
         if (mobileAPI == null) {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(MOBILE_BASE_API)
@@ -37,8 +39,24 @@ public class NetworkUtils {
             mobileAPI = retrofit.create(MobileAPI.class);
         }
 
-        mobileAPI.getLatestMobiles(brand, String.valueOf(limit)).enqueue(callback);
+        if (callback != null) {
+            mobileAPI.getLatestMobiles(brand, String.valueOf(limit)).enqueue(callback);
+            return null;
+        } else {
+            try {
+                Response<List<Mobile>> response = mobileAPI.getLatestMobiles(brand, String.valueOf(limit)).execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    return null;
+                }
+            } catch (IOException e) {
+                return null;
+            }
+        }
     }
+
+
 
     public static void loadImage(Context context, ImageView iv, Mobile mobile) {
         int placeHolder = R.drawable.ic_launcher_foreground;

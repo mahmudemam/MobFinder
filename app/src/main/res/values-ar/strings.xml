@@ -2,7 +2,7 @@
 <resources>
     <string name="vendor_label">الشركة</string>
 
-    <string name="no_network_message">الشبكة غير متاحه</string>
+    <string name="no_network_message">الشبكة غير متاحه و لا يوجد موبايلات مفضلة</string>
     <string name="offline_message">غير متصل على الانترنت</string>
     <string name="offline_message_with_action">غير متصل على الانترنت - إضغط لعرض الموبايلات المفضلة</string>
 

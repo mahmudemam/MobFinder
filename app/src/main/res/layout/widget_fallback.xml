@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_widget_fallback_image"
+        android:layout_width="@dimen/widget_fallback_image_size"
+        android:layout_height="@dimen/widget_fallback_image_size"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/widget_margin"
+        android:src="@drawable/ic_signal_wifi_off_black_24dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_margin="@dimen/widget_margin"
+        android:contentDescription="@string/no_network_message"
+        android:text="@string/no_network_message"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+</LinearLayout>
