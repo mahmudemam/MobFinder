@@ -27,4 +27,5 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="mobile_details_spec_img_size">36dp</dimen>
     <dimen name="mobile_details_img_size">160dp</dimen>
+    <dimen name="mobile_details_content_card_margin">@dimen/default_margin</dimen>
 </resources>

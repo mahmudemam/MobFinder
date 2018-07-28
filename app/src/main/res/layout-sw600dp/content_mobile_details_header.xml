@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_screen_size"
+        style="@style/mobile_details_header"
+        android:layout_marginTop="@dimen/default_margin"
+        android:contentDescription="@string/mobile_details_content_desc_screen_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_screen_size_24dp" />
+
+    <ImageView
+        android:id="@+id/iv_camera"
+        style="@style/mobile_details_header"
+        android:layout_marginStart="159dp"
+        android:layout_marginTop="@dimen/default_margin"
+        android:contentDescription="@string/mobile_details_content_desc_camera"
+        app:layout_constraintStart_toEndOf="@+id/iv_screen_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_camera_24dp" />
+
+    <ImageView
+        android:id="@+id/iv_os"
+        style="@style/mobile_details_header"
+        android:layout_marginStart="159dp"
+        android:layout_marginTop="@dimen/default_margin"
+        android:contentDescription="@string/mobile_details_content_desc_android_os"
+        app:layout_constraintStart_toEndOf="@+id/iv_camera"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_android_24dp" />
+
+    <TextView
+        android:id="@+id/tv_screen_primary"
+        style="@style/mobile_details_header_primary_content"
+        app:layout_constraintStart_toEndOf="@+id/iv_screen_size"
+        app:layout_constraintTop_toTopOf="@+id/iv_screen_size"
+        tools:text='6"' />
+
+    <TextView
+        android:id="@+id/tv_screen_secondary"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_screen_size"
+        app:layout_constraintStart_toStartOf="@+id/tv_screen_primary"
+        app:layout_constraintTop_toBottomOf="@+id/tv_screen_primary"
+        tools:text="1080 x 2160" />
+
+    <TextView
+        android:id="@+id/tv_camera_primary"
+        style="@style/mobile_details_header_primary_content"
+        app:layout_constraintStart_toEndOf="@+id/iv_camera"
+        app:layout_constraintTop_toTopOf="@+id/iv_camera"
+        tools:text="12 MP" />
+
+    <TextView
+        android:id="@+id/tv_camera_secondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_camera"
+        app:layout_constraintStart_toStartOf="@+id/tv_camera_primary"
+        app:layout_constraintTop_toBottomOf="@+id/tv_camera_primary"
+        tools:text="8 MP front" />
+
+    <TextView
+        android:id="@+id/tv_os_primary"
+        style="@style/mobile_details_header_primary_content"
+        app:layout_constraintStart_toEndOf="@+id/iv_os"
+        app:layout_constraintTop_toTopOf="@+id/iv_os"
+        tools:text="Android" />
+
+    <TextView
+        android:id="@+id/tv_os_secondary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_os_primary"
+        app:layout_constraintTop_toBottomOf="@+id/tv_os_primary"
+        tools:text="Oreo 8" />
+</android.support.constraint.ConstraintLayout>
