@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -129,14 +130,30 @@ public class MobileDetailsActivity extends AppCompatActivity {
 
     private void loadCamera() {
         String spec = mobile.getPrimary();
-        String primary = spec.substring(0, spec.indexOf(" MP") + " MP".length());
-        ((TextView) findViewById(R.id.tv_camera_primary)).setText(primary);
-        ((TextView) findViewById(R.id.tv_rear_camera_data)).setText(primary);
+        if (spec != null) {
+            String primary = spec.substring(0, spec.indexOf(" MP") + " MP".length());
+            ((TextView) findViewById(R.id.tv_camera_primary)).setText(primary);
+            ((TextView) findViewById(R.id.tv_rear_camera_data)).setText(primary);
 
-        spec = mobile.getSecondary();
-        String secondary = spec.substring(0, spec.indexOf(" MP") + " MP".length());
-        ((TextView) findViewById(R.id.tv_camera_secondary)).setText(
-                getString(R.string.front_camera_format, secondary));
-        ((TextView) findViewById(R.id.tv_front_camera_data)).setText(secondary);
+            spec = mobile.getSecondary();
+            if (spec != null) {
+                String secondary = spec.substring(0, spec.indexOf(" MP") + " MP".length());
+                ((TextView) findViewById(R.id.tv_camera_secondary)).setText(
+                        getString(R.string.front_camera_format, secondary));
+                ((TextView) findViewById(R.id.tv_front_camera_data)).setText(secondary);
+            } else {
+                makeCameraHeaderGone(true);
+            }
+        } else {
+            makeCameraHeaderGone(false);
+        }
+    }
+
+    private void makeCameraHeaderGone(boolean secondaryOnly) {
+        if (!secondaryOnly) {
+            findViewById(R.id.tv_camera_primary).setVisibility(View.GONE);
+            findViewById(R.id.iv_camera).setVisibility(View.GONE);
+        }
+        findViewById(R.id.tv_camera_secondary).setVisibility(View.GONE);
     }
 }
