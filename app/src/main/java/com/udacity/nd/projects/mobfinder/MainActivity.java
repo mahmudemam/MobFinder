@@ -26,6 +26,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.udacity.nd.projects.mobfinder.adapters.MobileAdapter;
 import com.udacity.nd.projects.mobfinder.data.Mobile;
 import com.udacity.nd.projects.mobfinder.settings.SettingsActivity;
@@ -102,6 +104,14 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
                 }
             }
         }
+
+        loadAds();
+    }
+
+    private void loadAds() {
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     private void checkOperateMode() {
