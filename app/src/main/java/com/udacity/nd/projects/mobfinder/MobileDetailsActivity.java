@@ -11,13 +11,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.udacity.nd.projects.mobfinder.analytics.MobFinderApp;
 import com.udacity.nd.projects.mobfinder.data.Mobile;
 import com.udacity.nd.projects.mobfinder.utils.NetworkUtils;
 
 public class MobileDetailsActivity extends AppCompatActivity {
     private static final String INTENT_KEY_MOBILE = "mobile";
+    private static final String TAG = MobileDetailsActivity.class.getSimpleName();
 
     private Mobile mobile;
+    private Tracker mTracker;
 
     public static void start(Context context, Mobile mobile) {
         Intent intent = new Intent(context, MobileDetailsActivity.class);
@@ -38,6 +43,11 @@ public class MobileDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mobile_details);
 
+
+        // Obtain the shared Tracker instance.
+        MobFinderApp application = (MobFinderApp) getApplication();
+        mTracker = application.getDefaultTracker();
+
         Intent intent = getIntent();
         if (intent != null) {
             mobile = intent.getParcelableExtra(INTENT_KEY_MOBILE);
@@ -50,6 +60,14 @@ public class MobileDetailsActivity extends AppCompatActivity {
         loadViewByMobile();
 
         loadFAB();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mTracker.setScreenName(getString(R.string.app_name) + ": "+ TAG);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     private void loadFAB() {

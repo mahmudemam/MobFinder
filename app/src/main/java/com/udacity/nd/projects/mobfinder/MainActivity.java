@@ -28,7 +28,10 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.udacity.nd.projects.mobfinder.adapters.MobileAdapter;
+import com.udacity.nd.projects.mobfinder.analytics.MobFinderApp;
 import com.udacity.nd.projects.mobfinder.data.Mobile;
 import com.udacity.nd.projects.mobfinder.settings.SettingsActivity;
 import com.udacity.nd.projects.mobfinder.utils.NetworkUtils;
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
     private String operateMode;
     private NetworkConnectivityReceiver receiver;
     private Button refreshBtn;
+    private Tracker mTracker;
 
     public static void start(Context context, String operateMode) {
         Log.d(TAG, "start");
@@ -74,6 +78,10 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Obtain the shared Tracker instance.
+        MobFinderApp application = (MobFinderApp) getApplication();
+        mTracker = application.getDefaultTracker();
 
         registerNetworkReceiver();
 
@@ -106,6 +114,14 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
         }
 
         loadAds();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mTracker.setScreenName(getString(R.string.app_name) + ": "+ TAG);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     private void loadAds() {
