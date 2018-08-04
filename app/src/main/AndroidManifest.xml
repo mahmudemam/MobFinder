@@ -36,7 +36,8 @@
         <activity
             android:name=".MobileDetailsActivity"
             android:label="@string/mobile_details_activity_title"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.udacity.nd.projects.mobfinder.MainActivity" />
