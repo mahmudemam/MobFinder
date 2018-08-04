@@ -3,6 +3,7 @@ package com.udacity.nd.projects.mobfinder.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.widget.ImageView;
 
@@ -30,14 +31,7 @@ public class NetworkUtils {
     private static final String MOBILE_BASE_API = "https://fonoapi.freshpixl.com/v1/";
 
     public static List<Mobile> getLatest(Callback<List<Mobile>> callback, String brand, int limit) {
-        if (mobileAPI == null) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(MOBILE_BASE_API)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            mobileAPI = retrofit.create(MobileAPI.class);
-        }
+        getInstance();
 
         if (callback != null) {
             mobileAPI.getLatestMobiles(brand, String.valueOf(limit)).enqueue(callback);
@@ -56,6 +50,46 @@ public class NetworkUtils {
         }
     }
 
+    private static void getInstance() {
+        if (mobileAPI == null) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(MOBILE_BASE_API)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            mobileAPI = retrofit.create(MobileAPI.class);
+        }
+    }
+
+    public interface NetworkCallbacks {
+        void onMobileLoaded(List<Mobile> mobiles);
+    }
+
+    public static void getLatest(final NetworkCallbacks callbacks, final String brand, final int limit) {
+        getInstance();
+
+
+        new AsyncTask<Void, Void, List<Mobile>>() {
+            @Override
+            protected List<Mobile> doInBackground(Void... voids) {
+                try {
+                    Response<List<Mobile>> response = mobileAPI.getLatestMobiles(brand, String.valueOf(limit)).execute();
+                    if (response.isSuccessful()) {
+                        return response.body();
+                    } else {
+                        return null;
+                    }
+                } catch (IOException e) {
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(List<Mobile> mobiles) {
+                callbacks.onMobileLoaded(mobiles);
+            }
+        }.execute();
+    }
 
 
     public static void loadImage(Context context, ImageView iv, Mobile mobile) {

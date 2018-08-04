@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
     protected void onResume() {
         super.onResume();
 
-        mTracker.setScreenName(getString(R.string.app_name) + ": "+ TAG);
+        mTracker.setScreenName(getString(R.string.app_name) + ": " + TAG);
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
@@ -301,7 +301,19 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
         progressBar.setVisibility(View.VISIBLE);
         rv.setVisibility(View.INVISIBLE);
 
-        NetworkUtils.getLatest(this,
+        /*NetworkUtils.getLatest(this,
+                spinner.getSelectedItem().toString(),
+                PreferencesUtils.getLimit(this));*/
+
+        NetworkUtils.getLatest(new NetworkUtils.NetworkCallbacks() {
+                                   @Override
+                                   public void onMobileLoaded(List<Mobile> mobiles) {
+
+                                       Log.d(TAG, "mobiles: " + (mobiles != null ? mobiles.size() : 0));
+
+                                       loadRecyclerByMobiles(mobiles);
+                                   }
+                               },
                 spinner.getSelectedItem().toString(),
                 PreferencesUtils.getLimit(this));
     }
@@ -323,10 +335,7 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
             List<Mobile> mobiles = response.body();
             Log.d(TAG, "mobiles: " + (mobiles != null ? mobiles.size() : 0));
 
-            progressBar.setVisibility(View.INVISIBLE);
-            rv.setVisibility(View.VISIBLE);
-
-            loadRecyclerView(mobiles);
+            loadRecyclerByMobiles(mobiles);
         } else {
             try {
                 Log.e(TAG, response.errorBody().string());
@@ -334,6 +343,13 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
                 Log.e(TAG, e.getMessage());
             }
         }
+    }
+
+    private void loadRecyclerByMobiles(List<Mobile> mobiles) {
+        progressBar.setVisibility(View.INVISIBLE);
+        rv.setVisibility(View.VISIBLE);
+
+        loadRecyclerView(mobiles);
     }
 
     private void loadRecyclerView(List<Mobile> mobiles) {
