@@ -23,22 +23,22 @@
 
     <!-- MobileDetailsActivity related -->
 
-    <string name="mobile_details_activity_title">MobileDetailsActivity</string>
+    <string name="mobile_details_activity_title" translatable="false">MobileDetailsActivity</string>
     <string name="mobile_details_image_content_desc">Mobile Image</string>
     <string name="mobile_details_content_desc_screen_size">Screen Size</string>
     <string name="mobile_details_content_desc_camera">Camera</string>
     <string name="mobile_details_content_desc_android_os">Android OS</string>
-    <string name="mobile_details_title_display">Display</string>
-    <string name="mobile_details_physical_size">Size:</string>
-    <string name="mobile_details_resolution">Resolution:</string>
-    <string name="mobile_details_pixels">Density:</string>
-    <string name="mobile_details_title_hardware">Hardware</string>
-    <string name="mobile_details_chipset">Chipset:</string>
-    <string name="mobile_details_graphics">Graphics:</string>
-    <string name="mobile_details_memory">Memory:</string>
-    <string name="mobile_details_title_camera">Camera</string>
-    <string name="mobile_details_rear_camera">Rear camera:</string>
-    <string name="mobile_details_front_camera">Front camera:</string>
+    <string name="mobile_details_title_display" translatable="false">Display</string>
+    <string name="mobile_details_physical_size" translatable="false">Size:</string>
+    <string name="mobile_details_resolution" translatable="false">Resolution:</string>
+    <string name="mobile_details_pixels" translatable="false">Density:</string>
+    <string name="mobile_details_title_hardware" translatable="false">Hardware</string>
+    <string name="mobile_details_chipset" translatable="false">Chipset:</string>
+    <string name="mobile_details_graphics" translatable="false">Graphics:</string>
+    <string name="mobile_details_memory" translatable="false">Memory:</string>
+    <string name="mobile_details_title_camera" translatable="false">Camera</string>
+    <string name="mobile_details_rear_camera" translatable="false">Rear camera:</string>
+    <string name="mobile_details_front_camera" translatable="false">Front camera:</string>
 
     <!-- SettingsActivity related -->
 
@@ -52,7 +52,7 @@
     <string name="pref_key_brand" translatable="false">brand</string>
     <string name="pref_title_brand">Default Brand</string>
     <string name="pref_default_brand" translatable="false">0</string>
-    <string-array name="pref_brand_values">
+    <string-array name="pref_brand_values"  translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>
@@ -70,20 +70,24 @@
     <string name="pref_title_network_type">Operate Over</string>
     <string name="pref_key_network_type" translatable="false">network_type</string>
     <string name="pref_default_network_type" translatable="false">1</string>
-    <string-array name="pref_entries_network_types">
+    <string-array name="pref_entries_network_types" translatable="false">
         <item>Wifi</item>
         <item>Wifi &amp; cellular</item>
     </string-array>
-    <string-array name="pref_values_network_types">
+    <string-array name="pref_values_network_types" translatable="false">
         <item>0</item>
         <item>1</item>
     </string-array>
 
     <!-- string formats -->
 
-    <string name="display_size_header_format">%s\"</string>
-    <string name="display_size_content_format">%s inches</string>
-    <string name="resolution_format">%s pixels</string>
-    <string name="rear_camera_format">%s MP</string>
-    <string name="front_camera_format">%s front</string>
+    <string name="display_size_header_format" translatable="false">%s\"</string>
+    <string name="display_size_content_format" translatable="false">%s inches</string>
+    <string name="resolution_format" translatable="false">%s pixels</string>
+    <string name="rear_camera_format" translatable="false">%s MP</string>
+    <string name="front_camera_format" translatable="false">%s front</string>
+
+    <!-- Content Description -->
+    <string name="content_description_fav_button">Mark as Favorite</string>
+    <string name="content_description_share_button">Share it</string>
 </resources>

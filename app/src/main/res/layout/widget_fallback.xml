@@ -11,6 +11,7 @@
         android:layout_height="@dimen/widget_fallback_image_size"
         android:layout_gravity="center"
         android:layout_margin="@dimen/widget_margin"
+        android:contentDescription="@string/no_network_message"
         android:src="@drawable/ic_signal_wifi_off_black_24dp" />
 
     <TextView

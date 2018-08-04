@@ -3,7 +3,6 @@ package com.udacity.nd.projects.mobfinder.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.udacity.nd.projects.mobfinder.R;
 import com.udacity.nd.projects.mobfinder.data.Mobile;
 import com.udacity.nd.projects.mobfinder.utils.NetworkUtils;
@@ -100,6 +98,7 @@ public class MobileAdapter extends RecyclerView.Adapter<MobileAdapter.MobileView
             itemView.setTag(mobile);
 
             NetworkUtils.loadImage(mContext, mobileImage, mobile);
+            mobileImage.setContentDescription(mobile.getDeviceName());
 
             mobileName.setText(mobile.getDeviceName());
             vendorName.setText(mobile.getBrand());

@@ -86,6 +86,7 @@ public class MobFinderWidgetService extends RemoteViewsService {
             }
 
             rv.setImageViewResource(R.id.iv_widget_mobile_image, resId);
+            rv.setContentDescription(R.id.iv_widget_mobile_image, mobile.getDeviceName());
             rv.setTextViewText(R.id.tv_widget_mobile_name, mobile.getDeviceName());
             rv.setTextViewText(R.id.tv_widget_mobile_status, mobile.getStatus());
 

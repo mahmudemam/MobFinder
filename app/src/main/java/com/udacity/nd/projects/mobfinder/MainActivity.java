@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -221,28 +222,31 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Mob
     private void workOffline() {
         Log.d(TAG, "workOffline");
 
-        List<Mobile> mobiles = ProviderUtils.getAllMobiles(this);
+        ProviderUtils.getAllMobiles(this, new ProviderUtils.ProviderCallbacks() {
+            @Override
+            public void onMobilesLoaded(@Nullable List<Mobile> mobiles) {
+                refreshBtn.setVisibility(View.GONE);
 
-        refreshBtn.setVisibility(View.GONE);
+                if (mobiles == null) {
+                    progressBar.setVisibility(View.GONE);
+                    spinner.setVisibility(View.GONE);
+                    rv.setVisibility(View.GONE);
 
-        if (mobiles == null) {
-            progressBar.setVisibility(View.GONE);
-            spinner.setVisibility(View.GONE);
-            rv.setVisibility(View.GONE);
+                    findViewById(R.id.iv_no_network).setVisibility(View.VISIBLE);
+                    findViewById(R.id.tv_no_network).setVisibility(View.VISIBLE);
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                    spinner.setVisibility(View.GONE);
 
-            findViewById(R.id.iv_no_network).setVisibility(View.VISIBLE);
-            findViewById(R.id.tv_no_network).setVisibility(View.VISIBLE);
-        } else {
-            progressBar.setVisibility(View.GONE);
-            spinner.setVisibility(View.GONE);
+                    loadRecyclerView(mobiles);
+                }
 
-            loadRecyclerView(mobiles);
-        }
-
-        TextView offlineMode = findViewById(R.id.tv_offline_mode);
-        offlineMode.setText(getString(R.string.offline_message));
-        offlineMode.setVisibility(View.VISIBLE);
-        offlineMode.setOnClickListener(null);
+                TextView offlineMode = findViewById(R.id.tv_offline_mode);
+                offlineMode.setText(getString(R.string.offline_message));
+                offlineMode.setVisibility(View.VISIBLE);
+                offlineMode.setOnClickListener(null);
+            }
+        });
     }
 
     private void workPartiallyOffline() {
